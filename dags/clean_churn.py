@@ -88,14 +88,13 @@ def clean_churn_dataset():
 	        upper = Q3+margin
 	        potential_outliers[col] = ~data[col].between(lower, upper)
         outliers = potential_outliers.any(axis=1)
-        return data[outliers]
+        return outliers
                 
     @task()
     def transform(data: pd.DataFrame):
-        data1 = remove_duplicates(data)
+        data1 = remove_duplicates(data)        
         data2 = fill_missing_values(data1)
-        data3 = outliers(data2)
-        return data3
+        return data2
 
     @task()
     def load(data: pd.DataFrame):
